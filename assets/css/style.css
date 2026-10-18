@@ -23,7 +23,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: url("../img/background.jpg") center / cover no-repeat;
+  background: url("../img/background.png") center / cover no-repeat;
 }
 
 /* frosted glass panel for all written content */
