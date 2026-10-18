@@ -45,3 +45,58 @@ body::before {
 
 a { color: #8ab4ff; }
 h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
+
+/* shared header, injected by assets/js/main.js */
+.site-header {
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 760px;
+  margin: 1rem auto 0;
+  padding: 0.6rem 1.25rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+.site-header .brand {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-header nav a {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.site-header nav a:hover { color: var(--text); background: rgba(255, 255, 255, 0.08); }
+.site-header nav a[aria-current="page"] { color: var(--text); background: rgba(255, 255, 255, 0.16); }
+
+/* the header already provides top spacing */
+.site-header + .glass { margin-top: 1.5rem; }
+
+@media (max-width: 600px) {
+  .site-header { margin: 0.75rem 1rem 0; border-radius: 20px; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .site-header nav { max-width: 100%; }
+}
