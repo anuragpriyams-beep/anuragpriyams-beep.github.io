@@ -59,13 +59,14 @@ body::before {
    The dark tint plus blur keep text scrolling underneath from fighting with the nav labels.
    The first backdrop-filter is the fallback for browsers without url() support. */
 .glass-bar {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)), rgba(8, 9, 14, 0.55);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06)), rgba(8, 9, 14, 0.38);
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.35),
+    0 0 36px rgba(255, 255, 255, 0.14),   /* soft glow around and behind the bar */
+    0 8px 28px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 0 18px rgba(255, 255, 255, 0.06);
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 22px rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(12px) saturate(1.5);
   backdrop-filter: blur(12px) saturate(1.5);
   backdrop-filter: url(#bar-refract) blur(10px) saturate(1.5) brightness(1.05);
