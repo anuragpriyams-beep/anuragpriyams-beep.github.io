@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="../../../assets/js/tailwind-config.js"></script>
+<link rel="stylesheet" href="../../../assets/js/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../../assets/css/style.css">
+<link rel="stylesheet" href="../../../assets/css/prose.css">
+</head>
+<body class="font-sans">
+<main class="glass">
+  <div class="mx-auto max-w-6xl px-6 pb-40 pt-16 md:px-12 md:pt-24">
+    <header class="mx-auto mb-20 max-w-[44rem] lg:mb-24 lg:max-w-none lg:pl-[19rem]">
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent"><a href="../../" class="hover:underline">Writing</a></p>
+      <!-- the title is taken from the first "# heading" of post.md -->
+      <h1 id="post-title" class="mt-6 max-w-3xl font-display text-5xl font-light leading-[1] tracking-tight md:text-7xl"></h1>
+      <!-- EDIT: add data-date="18 Oct 2026" to the article below to show a date here -->
+      <p id="post-meta" class="mt-8 font-mono text-xs uppercase tracking-widest text-white/50"></p>
+    </header>
+    <div class="post-layout">
+      <aside class="toc-col"></aside>
+      <article class="prose" data-md="post.md"></article>
+    </div>
+  </div>
+</main>
+<script src="../../../assets/js/vendor/lucide.min.js"></script>
+<script src="../../../assets/js/vendor/marked.min.js"></script>
+<script src="../../../assets/js/vendor/katex/katex.min.js"></script>
+<script src="../../../assets/js/main.js" data-root="../../../" data-page="blog"></script>
+<script src="../../../assets/js/post.js"></script>
+</body>
+</html>

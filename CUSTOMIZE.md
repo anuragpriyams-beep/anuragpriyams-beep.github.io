@@ -59,9 +59,16 @@ In `assets/js/main.js`, edit the `items` list: `["key", "Label", "folder/"]`. Th
 
 ## Add a blog post
 
-1. Make `blog/posts/<slug>/index.html`, copying `blog/index.html` as the starting point. Fix the paths: from `blog/posts/<slug>/`, the root is `../../../`, so set `../../../assets/...` in the links and `data-root="../../../"` on the `main.js` script tag, with `data-page="blog"`.
-2. Write the post inside the `<div class="mx-auto max-w-5xl ...">`, using normal HTML (`<h2>`, `<p>`, `<img>`). For a comfortable reading width use `class="max-w-2xl space-y-6 text-lg leading-loose text-white/80"` on a wrapper.
-3. List it on `blog/index.html` (and the home page "Writing" list) with a row like the existing `<li>` items.
+Posts are Markdown files rendered in the browser (math with `$...$` and `$$...$$`, tables, images and raw HTML all work). Design notes and the rules the renderer follows are in `DECISIONS.md`.
+
+1. Copy the folder `blog/posts/generative-vs-discriminative/` to `blog/posts/<your-slug>/`.
+2. Replace `post.md` with your Markdown. The first `# Title` line becomes the page title. Number sections (`## 1 Intro`, `### 1.1 ...`) if you want a clean outline; the renderer derives heading levels from the numbers.
+3. Put images in the same folder and reference them by file name (`<img src="fig1.png">` or `![alt](fig1.png)`). Resize big images first (about 1600 px wide at most).
+4. Optional: add `data-date="18 Oct 2026"` to the `<article>` in that folder's `index.html` to show a date.
+5. Add a row to the list in `blog/index.html` (copy an existing `<li>`).
+6. Preview with `python -m http.server 8000` and open `http://localhost:8000/blog/posts/<your-slug>/`. Opening the HTML file directly will not work, because the page fetches `post.md`.
+
+Text inside `<!-- ... -->` is never shown on the page (but is still visible in the public repo).
 
 ## Icons
 
