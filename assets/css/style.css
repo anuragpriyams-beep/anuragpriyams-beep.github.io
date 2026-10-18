@@ -32,8 +32,23 @@ body::before {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   -webkit-backdrop-filter: blur(5px) saturate(140%);
   backdrop-filter: blur(5px) saturate(140%);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+/* slim floating scrollbar: no arrow buttons, translucent pill thumb, kept clear of the rounded corners.
+   Chromium/Safari use the ::-webkit-scrollbar rules; Firefox gets the standard properties. */
+.glass::-webkit-scrollbar, .prose .table-wrap::-webkit-scrollbar, .prose .katex-display::-webkit-scrollbar { width: 12px; height: 12px; }
+.glass::-webkit-scrollbar-track { background: transparent; margin: 26px 0; }
+.glass::-webkit-scrollbar-button, .prose .table-wrap::-webkit-scrollbar-button, .prose .katex-display::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+.glass::-webkit-scrollbar-corner { background: transparent; }
+.glass::-webkit-scrollbar-thumb, .prose .table-wrap::-webkit-scrollbar-thumb, .prose .katex-display::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+.glass::-webkit-scrollbar-thumb:hover, .prose .table-wrap::-webkit-scrollbar-thumb:hover { background: rgba(242, 200, 121, 0.7); background-clip: padding-box; }
+@supports not selector(::-webkit-scrollbar) {
+  .glass, .prose .table-wrap, .prose .katex-display { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
 }
 
 @media (max-width: 640px) {
