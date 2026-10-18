@@ -1,4 +1,4 @@
-// Injects the shared site header. Each page loads this script with
+// Injects the shared site header into the glass panel. Each page loads this script with
 // data-root (path back to the site root) and data-page (nav item to highlight).
 (function () {
   var script = document.currentScript;
@@ -23,5 +23,5 @@
   header.innerHTML =
     '<a class="brand" href="' + root + '">Anurag Priyam Sahay</a>' +
     '<nav aria-label="Main">' + links + "</nav>";
-  document.body.prepend(header);
+  document.querySelector(".glass").prepend(header);
 })();
