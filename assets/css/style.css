@@ -1,19 +1,14 @@
-:root {
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --text: #fff;
-  --text-dim: rgba(255, 255, 255, 0.6);
-}
-
-* { box-sizing: border-box; }
+/* Layout shell only; everything else is Tailwind utility classes in the HTML. */
+/* Self-hosted fonts (latin subset, variable woff2) */
+@font-face { font-family: "Fraunces"; font-weight: 300 600; font-style: normal; font-display: swap; src: url("../fonts/fraunces-latin.woff2") format("woff2"); }
+@font-face { font-family: "DM Sans"; font-weight: 400 500; font-style: normal; font-display: swap; src: url("../fonts/dm-sans-latin.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400 500; font-style: normal; font-display: swap; src: url("../fonts/jetbrains-mono-latin.woff2") format("woff2"); }
 
 html, body { margin: 0; min-height: 100%; }
 
 body {
   background: #000;
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
+  color: #fff;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -26,100 +21,21 @@ body::before {
   background: url("../img/background.png") center / cover no-repeat;
 }
 
-/* one frosted glass panel covering the viewport, inset 50px on every side; content scrolls inside it */
+/* one light frosted glass panel covering most of the viewport; content scrolls inside it */
 .glass {
   position: fixed;
-  inset: 50px;
+  inset: 32px;
   overflow-y: auto;
-  padding: 0 2.25rem 2rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(5px) saturate(140%);
+  backdrop-filter: blur(5px) saturate(140%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
-/* keep text at a readable width inside the full-size panel */
-.glass > *:not(.site-header) { max-width: 860px; margin-left: auto; margin-right: auto; }
-
-@media (max-width: 600px) {
-  .glass { inset: 16px; padding: 0 1.25rem 1.5rem; border-radius: 20px; }
-}
-
-a { color: #8ab4ff; }
-h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
-
-/* shared header, injected into the glass panel by assets/js/main.js */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0 -2.25rem 1.5rem;
-  padding: 1rem 2.25rem;
-  border-bottom: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.04);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
-
-.site-header .brand { color: #fff; font-weight: 600; text-decoration: none; white-space: nowrap; }
-
-.site-header nav { display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
-
-.site-header nav a {
-  padding: 0.3rem 0.85rem;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 0.9rem;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.15s;
-}
-
-.site-header nav a:hover { background: rgba(255, 255, 255, 0.12); }
-.site-header nav a[aria-current="page"] { background: rgba(255, 255, 255, 0.22); }
-
-@media (max-width: 600px) {
-  .site-header { margin: 0 -1.25rem 1.25rem; padding: 0.75rem 1.25rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
-  .site-header nav { max-width: 100%; }
-}
-
-/* home page */
-.hero { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1rem; }
-.hero h1 { margin: 0; font-size: 2rem; line-height: 1.15; }
-.tagline { margin: 0.35rem 0 0; color: var(--text-dim); font-size: 1.1rem; }
-
-.avatar {
-  flex: none;
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-
-.card {
-  display: block;
-  padding: 1rem 1.25rem;
-  color: var(--text);
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  transition: background 0.15s, transform 0.15s;
-}
-.card:hover { background: rgba(255, 255, 255, 0.14); transform: translateY(-2px); }
-.card h3 { margin: 0 0 0.25rem; }
-.card p { margin: 0; color: var(--text-dim); font-size: 0.95rem; }
-
-@media (max-width: 600px) {
-  .hero { flex-direction: column; align-items: flex-start; }
+@media (max-width: 640px) {
+  .glass { inset: 12px; border-radius: 20px; }
 }

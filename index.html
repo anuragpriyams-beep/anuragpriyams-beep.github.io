@@ -4,51 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="assets/js/tailwind-config.js"></script>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="font-sans">
 <main class="glass">
+  <div class="mx-auto max-w-5xl px-8 pb-32 md:px-16">
 
-  <!-- HERO -->
-  <section class="hero">
-    <!-- EDIT: replace assets/img/profile.svg with your photo (e.g. assets/img/profile.jpg) and update src below -->
-    <img class="avatar" src="assets/img/profile.svg" alt="Photo of Anurag Priyam Sahay" width="120" height="120">
-    <div>
-      <h1>Anurag Priyam Sahay</h1>
-      <!-- EDIT: one-line intro -->
-      <p class="tagline">Your one-line intro goes here.</p>
-    </div>
-  </section>
+    <!-- HERO -->
+    <section class="grid items-end gap-16 pt-20 md:grid-cols-[1fr_300px] md:pt-32">
+      <div>
+        <!-- EDIT: eyebrow greeting -->
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">Hello, I'm Anurag.</p>
+        <h1 class="mt-6 font-display text-6xl font-light leading-[0.95] tracking-tight md:text-8xl">Anurag Priyam Sahay</h1>
+        <!-- EDIT: one-line intro -->
+        <p class="mt-8 max-w-xl text-lg leading-relaxed text-white/70 md:text-xl">Your one-line intro goes here: what you build, study or care about.</p>
+      </div>
+      <!-- EDIT: replace assets/img/profile.svg with your photo (e.g. assets/img/profile.jpg) and update src -->
+      <img src="assets/img/profile.svg" alt="Photo of Anurag Priyam Sahay" width="300" height="375"
+           class="aspect-[4/5] w-full max-w-[300px] rounded-2xl border border-white/15 object-cover shadow-2xl">
+    </section>
 
-  <!-- ABOUT -->
-  <section>
-    <h2>About</h2>
-    <!-- EDIT: a short paragraph or two about you -->
-    <p>Write a short paragraph about who you are, what you study or build, and what you're interested in.</p>
-  </section>
+    <!-- ABOUT -->
+    <section class="mt-32 border-t border-white/10 pt-16">
+      <!-- EDIT: a short paragraph or two about you -->
+      <p class="max-w-2xl text-lg leading-loose text-white/80">Write a short paragraph about who you are, what you study or build, and what you are interested in. Keep it plain and personal.</p>
+    </section>
 
-  <!-- CURRENTLY -->
-  <section>
-    <h2>Currently</h2>
-    <!-- EDIT: add or remove list items -->
-    <ul>
-      <li>What you're working on right now</li>
-      <li>What you're learning</li>
-    </ul>
-  </section>
+    <!-- PROJECTS: edit titles and descriptions; icon names come from lucide.dev/icons -->
+    <section class="mt-32">
+      <div class="flex items-baseline justify-between">
+        <h2 class="font-display text-4xl font-light tracking-tight md:text-5xl">Projects</h2>
+        <a href="projects/" class="font-mono text-xs uppercase tracking-widest text-white/60 transition-colors hover:text-accent">All projects</a>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        <a href="projects/" class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07]">
+          <i data-lucide="sparkles" class="h-5 w-5 text-accent"></i>
+          <h3 class="mt-8 font-display text-2xl">Project one</h3>
+          <p class="mt-2 text-sm leading-relaxed text-white/60">A line about what it does.</p>
+        </a>
+        <a href="projects/" class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07]">
+          <i data-lucide="cpu" class="h-5 w-5 text-accent"></i>
+          <h3 class="mt-8 font-display text-2xl">Project two</h3>
+          <p class="mt-2 text-sm leading-relaxed text-white/60">A line about what it does.</p>
+        </a>
+        <a href="projects/" class="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:bg-white/[0.07]">
+          <i data-lucide="orbit" class="h-5 w-5 text-accent"></i>
+          <h3 class="mt-8 font-display text-2xl">Project three</h3>
+          <p class="mt-2 text-sm leading-relaxed text-white/60">A line about what it does.</p>
+        </a>
+      </div>
+    </section>
 
-  <!-- EXPLORE: cards linking to the other sections; edit only the descriptions -->
-  <section>
-    <h2>Explore</h2>
-    <div class="cards">
-      <a class="card" href="blog/"><h3>Blog</h3><p>Writing and notes.</p></a>
-      <a class="card" href="projects/"><h3>Projects</h3><p>Things I've built, some interactive.</p></a>
-      <a class="card" href="bookmarks/"><h3>Bookmarks</h3><p>Things worth reading.</p></a>
-      <a class="card" href="links/"><h3>Links</h3><p>Find me elsewhere.</p></a>
-    </div>
-  </section>
+    <!-- WRITING: latest posts; edit or remove -->
+    <section class="mt-32">
+      <div class="flex items-baseline justify-between">
+        <h2 class="font-display text-4xl font-light tracking-tight md:text-5xl">Writing</h2>
+        <a href="blog/" class="font-mono text-xs uppercase tracking-widest text-white/60 transition-colors hover:text-accent">All posts</a>
+      </div>
+      <ul class="mt-12 divide-y divide-white/10 border-y border-white/10">
+        <li><a href="blog/" class="flex items-baseline justify-between gap-6 py-6 transition-colors hover:text-accent">
+          <span class="font-display text-2xl">First post title</span>
+          <span class="font-mono text-xs text-white/50">2026</span>
+        </a></li>
+        <li><a href="blog/" class="flex items-baseline justify-between gap-6 py-6 transition-colors hover:text-accent">
+          <span class="font-display text-2xl">Second post title</span>
+          <span class="font-mono text-xs text-white/50">2026</span>
+        </a></li>
+      </ul>
+    </section>
 
+    <!-- CONTACT: add your own links -->
+    <section class="mt-32 flex items-center gap-6 border-t border-white/10 pt-10">
+      <a href="https://github.com/anuragpriyams-beep" aria-label="GitHub" class="text-white/60 transition-colors hover:text-accent"><i data-lucide="github" class="h-5 w-5"></i></a>
+      <a href="mailto:photonicsmc@gmail.com" aria-label="Email" class="text-white/60 transition-colors hover:text-accent"><i data-lucide="mail" class="h-5 w-5"></i></a>
+    </section>
+
+  </div>
 </main>
+<script src="assets/js/vendor/lucide.min.js"></script>
 <script src="assets/js/main.js" data-root="./" data-page="home"></script>
 </body>
 </html>
