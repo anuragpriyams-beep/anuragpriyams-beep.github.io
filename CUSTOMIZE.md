@@ -11,7 +11,7 @@ Plain static site: edit a file, refresh the browser, push to publish. No build s
 |---|---|
 | Home page text, photo, project cards, post list, contact icons | `index.html` |
 | Other pages | `blog/index.html`, `projects/index.html`, `bookmarks/index.html`, `links/index.html` |
-| Nav items, header, refraction effect | `assets/js/main.js` |
+| Nav items, header (brand text is the `AEPS` link), refraction, adaptive nav colour | `assets/js/main.js` |
 | Colours and font names | `assets/js/tailwind-config.js` |
 | Background, glass panel, header glass, font files | `assets/css/style.css` |
 | Images | `assets/img/` |
@@ -79,7 +79,7 @@ Icons are [Lucide](https://lucide.dev/icons). Browse the site, then use the icon
 - **Accent colour:** `accent` in `assets/js/tailwind-config.js`. Used for the active nav item, small labels and card icons.
 - **Fonts:** names are in `tailwind-config.js` (`display`, `sans`, `mono`). To switch a font, drop its `.woff2` into `assets/fonts/`, add an `@font-face` at the top of `style.css`, then change the name in `tailwind-config.js`.
 - **Glass panel** (`.glass` in `style.css`): `inset: 32px` is the gap to the screen edge, the `0.035` in `background` is the tint (higher = more opaque), and `blur(5px)` is how much the stars are softened.
-- **Header glass** (`.glass-bar` in `style.css`): tint, border and highlights. The refraction strength is the two `scale="36"` and `scale="28"` values in `main.js`; set both to `0` to turn bending off. Real refraction works in Chrome, Edge and other Chromium browsers; Safari and Firefox fall back to a plain frosted blur.
+- **Header glass** (`.glass-bar` in `style.css`): tint, border and highlights. The refraction is built in `main.js` to match the bar's exact shape: `MAX_SHIFT` is how far pixels bend at the rim (set it to `0` to turn bending off) and `BEZEL` is how far in from the rim the bend reaches. The bar's dark tint and blur (in `.glass-bar`) keep text scrolling underneath from clashing with the nav labels; nav labels also turn dark automatically when a light image passes under them. Real refraction works in Chrome, Edge and other Chromium browsers; Safari and Firefox fall back to a plain frosted blur.
 - **Spacing and type size:** Tailwind classes in the HTML. Bigger gaps: raise `mt-32` (section gap) or `pt-20`. Bigger headings: `text-6xl md:text-8xl` on the `<h1>`. See the [Tailwind docs](https://tailwindcss.com/docs) for class names.
 
 ## Notes

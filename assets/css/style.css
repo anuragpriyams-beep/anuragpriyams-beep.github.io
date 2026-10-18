@@ -55,17 +55,24 @@ body::before {
   .glass { inset: 12px; border-radius: 20px; }
 }
 
-/* top bar: refracting glass capsule (SVG filter is injected by main.js).
+/* top bar: refracting glass capsule (SVG filter is built by main.js to match the bar's exact size).
+   The dark tint plus blur keep text scrolling underneath from fighting with the nav labels.
    The first backdrop-filter is the fallback for browsers without url() support. */
 .glass-bar {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)), rgba(8, 9, 14, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
     0 6px 24px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 0 0 18px rgba(255, 255, 255, 0.06);
-  -webkit-backdrop-filter: blur(10px) saturate(1.6);
-  backdrop-filter: blur(10px) saturate(1.6);
-  backdrop-filter: url(#bar-refract) blur(3px) saturate(1.6) brightness(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  backdrop-filter: blur(12px) saturate(1.5);
+  backdrop-filter: url(#bar-refract) blur(10px) saturate(1.5) brightness(1.05);
 }
+
+.glass-bar a { transition: color 0.2s; }
+
+/* nav label over a light image: dark text instead of white (set by main.js) */
+.glass-bar a[data-tone="light"] { color: rgba(12, 14, 22, 0.92); }
+.glass-bar a[data-tone="light"][aria-current="page"] { color: #4a2a00; }
