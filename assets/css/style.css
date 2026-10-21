@@ -94,14 +94,19 @@ body::before {
 
 .mobile-menu-wrap { display: none; }
 @media (max-width: 639px) {
-  header.glass-bar { display: grid; grid-template-columns: 1fr auto 1fr; width: calc(100% - 2rem); padding: 0.8rem 1.35rem; overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .hb-left { display: flex; align-items: center; justify-self: start; color: rgba(255, 255, 255, 0.85); }
-  .hb-brand { justify-self: center; }
-  .nav-toggle { display: flex; }
-  header.glass-bar.collapsed { width: 3.4rem; padding: 0.75rem 1rem; grid-template-columns: 1fr; }
-  .glass-bar.collapsed .hb-left, .glass-bar.collapsed .hb-brand, .glass-bar.collapsed .nt-label { display: none; }
-  .glass-bar.collapsed .nt-bars { display: flex; }
+  /* the bar is right-anchored (auto left margin), so collapsing shrinks it toward the right.
+     Layout never changes between states: the contents just cross-fade and the width animates. */
+  header.glass-bar { display: grid; grid-template-columns: 1fr auto 1fr; width: calc(100% - 2rem); margin-left: auto; margin-right: 1rem; padding: 0.8rem 1.35rem; overflow: hidden;
+    transition: width 0.4s cubic-bezier(0.22, 0.8, 0.25, 1); }
+  .hb-left { display: flex; align-items: center; justify-self: start; color: rgba(255, 255, 255, 0.85); transition: opacity 0.2s; }
+  .hb-brand { justify-self: center; transition: opacity 0.2s; }
+  .nav-toggle { display: grid; position: absolute; top: 50%; right: 1.35rem; transform: translateY(-50%); transition: right 0.4s cubic-bezier(0.22, 0.8, 0.25, 1), color 0.2s; }
+  .nt-label, .nt-bars { grid-area: 1 / 1; justify-self: end; transition: opacity 0.2s; }
+  .nt-bars { display: flex; opacity: 0; }
+  header.glass-bar.collapsed { width: 3.4rem; }
+  .glass-bar.collapsed .nav-toggle { right: 1rem; }
+  .glass-bar.collapsed .hb-left, .glass-bar.collapsed .hb-brand, .glass-bar.collapsed .nt-label { opacity: 0; pointer-events: none; }
+  .glass-bar.collapsed .nt-bars { opacity: 1; }
 
   /* zero-height sticky anchor: keeps the card pinned just under the capsule while scrolling */
   .mobile-menu-wrap { display: block; position: sticky; top: 4.75rem; height: 0; z-index: 9; margin: 0 1rem; }
@@ -111,8 +116,6 @@ body::before {
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     -webkit-backdrop-filter: blur(26px) saturate(1.4); backdrop-filter: blur(26px) saturate(1.4);
     transform-origin: top right; animation: menu-in 0.18s ease-out; }
-  /* collapsed: the stripes sit at the left, so the card opens from the left */
-  .glass-bar.collapsed + .mobile-menu-wrap .mobile-menu { right: auto; left: 0; transform-origin: top left; }
   .mobile-menu[hidden] { display: none; }
   .mobile-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1rem; border-radius: 14px; color: rgba(255, 255, 255, 0.8); text-decoration: none;
     font-family: "JetBrains Mono", monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; }

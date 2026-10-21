@@ -158,7 +158,9 @@
     imageEl.setAttribute("href", buildMap(w, h, radius));
   }
   updateMap();
-  if (window.ResizeObserver) new ResizeObserver(updateMap).observe(header);
+  // Debounced: the bar animates its width, and rebuilding the canvas map every frame makes that stutter.
+  var mapTimer;
+  if (window.ResizeObserver) new ResizeObserver(function () { clearTimeout(mapTimer); mapTimer = setTimeout(updateMap, 90); }).observe(header);
   else window.addEventListener("resize", updateMap);
 
   // ---------- adaptive nav colour ----------
