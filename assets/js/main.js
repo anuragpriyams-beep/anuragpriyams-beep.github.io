@@ -21,14 +21,72 @@
       ' class="' + (on ? "text-accent" : "text-white/70 hover:text-white") + '">' + i[1] + "</a>";
   }).join("");
 
+  var GITHUB = "https://github.com/anuragpriyams-beep";
+
+  // Desktop (>= 640px): full-width capsule with brand and nav.
+  // Mobile, at the top of the page: full-width capsule with GitHub, AEPS and a "Menu" button.
+  // Mobile, once scrolled: collapses to a small capsule holding three stripes (opens the menu).
   var header = document.createElement("header");
-  header.className = "glass-bar sticky top-4 z-10 mx-4 mt-4 flex flex-col gap-3 rounded-3xl px-6 py-3 sm:flex-row sm:items-center sm:justify-between sm:rounded-full md:mx-10 md:px-8";
+  header.className = "glass-bar sticky top-4 z-10 mx-4 mt-4 flex items-center rounded-full px-4 py-3 sm:justify-between sm:gap-3 sm:px-6 md:mx-10 md:px-8";
   header.innerHTML =
-    '<a href="' + root + '" title="Anurag Priyam Sahay" aria-label="Anurag Priyam Sahay, home" class="font-display text-xl font-medium tracking-[0.14em] text-white">AEPS</a>' +
-    '<nav aria-label="Main" class="flex items-center gap-6 overflow-x-auto font-mono text-xs uppercase tracking-widest">' + links +
-    '<a href="https://github.com/anuragpriyams-beep" aria-label="GitHub" class="text-white/70 hover:text-white"><i data-lucide="github" class="h-4 w-4"></i></a>' +
-    "</nav>";
+    '<a href="' + GITHUB + '" aria-label="GitHub" class="hb-left"><i data-lucide="github" class="h-5 w-5"></i></a>' +
+    '<a href="' + root + '" title="Anurag Priyam Sahay" aria-label="Anurag Priyam Sahay, home" class="hb-brand font-display text-xl font-medium tracking-[0.14em] text-white">AEPS</a>' +
+    '<nav aria-label="Main" class="hidden items-center gap-6 overflow-x-auto font-mono text-xs uppercase tracking-widest sm:flex">' + links +
+    '<a href="' + GITHUB + '" aria-label="GitHub" class="text-white/70 hover:text-white"><i data-lucide="github" class="h-4 w-4"></i></a>' +
+    "</nav>" +
+    '<button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">' +
+    '<span class="nt-label">Menu</span><span class="nt-bars"><i></i><i></i><i></i></span></button>';
   glass.prepend(header);
+
+  // Mobile menu: a separate glass card pinned just below the small capsule
+  // (it cannot live inside the header, whose own backdrop blur would hide the page behind it).
+  var menuWrap = document.createElement("div");
+  menuWrap.className = "mobile-menu-wrap";
+  menuWrap.innerHTML =
+    '<nav id="mobile-menu" class="mobile-menu" aria-label="Main" hidden>' +
+    '<a href="' + root + '" class="mm-brand">AEPS</a>' +
+    items.map(function (i) {
+      return '<a href="' + root + i[2] + '"' + (i[0] === page ? ' aria-current="page"' : "") + ">" + i[1] + "</a>";
+    }).join("") +
+    '<a href="' + GITHUB + '"><i data-lucide="github" class="h-4 w-4"></i> GitHub</a>' +
+    "</nav>";
+  header.after(menuWrap);
+
+  var toggle = header.querySelector(".nav-toggle");
+  var menu = menuWrap.querySelector(".mobile-menu");
+
+  var label = toggle.querySelector(".nt-label");
+
+  function setMenu(open) {
+    menu.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    label.textContent = open ? "Close" : "Menu";
+    header.classList.toggle("menu-open", open);
+  }
+  toggle.addEventListener("click", function () { setMenu(menu.hidden); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && !toggle.contains(e.target)) setMenu(false);
+  });
+  window.matchMedia("(min-width: 640px)").addEventListener("change", function (e) { if (e.matches) setMenu(false); });
+
+  // Mobile only: collapse the bar to three stripes after scrolling down, expand near the top.
+  // (Two thresholds so it doesn't flicker around one value.)
+  var phone = window.matchMedia("(max-width: 639px)");
+  function syncCollapse() {
+    var collapsed = header.classList.contains("collapsed");
+    if (!phone.matches) {
+      if (collapsed) header.classList.remove("collapsed");
+      return;
+    }
+    var y = glass.scrollTop;
+    if (!collapsed && y > 48) { header.classList.add("collapsed"); setMenu(false); }
+    else if (collapsed && y < 16) { header.classList.remove("collapsed"); setMenu(false); }
+  }
+  glass.addEventListener("scroll", syncCollapse, { passive: true });
+  phone.addEventListener("change", syncCollapse);
+  syncCollapse();
 
   if (window.lucide) lucide.createIcons();
 
@@ -37,8 +95,8 @@
   // pushed inward (strongest at the edge, easing to zero `BEZEL` px in), so whatever
   // scrolls under the bar bends like a glass lens right along the boundary.
   // Channels: R = horizontal, G = vertical shift, 128 = no shift.
-  var BEZEL = 24;     // px from the rim over which the lens bends
-  var MAX_SHIFT = 18; // px of displacement right at the rim
+  var BEZEL = 5;     // px from the rim over which the lens bends
+  var MAX_SHIFT = 30; // px of displacement right at the rim
 
   function buildMap(w, h, r) {
     var c = document.createElement("canvas");
@@ -109,6 +167,14 @@
   // by the bar's own tint and blur.)
   var samples = new WeakMap();
 
+  // The bar brightens what is behind it by the brightness() in its backdrop-filter, so read
+  // that value from the stylesheet and keep the light/dark decision in sync with it.
+  function barBrightness() {
+    var f = getComputedStyle(header).backdropFilter || "";
+    var m = /brightness\(([\d.]+)(%?)\)/.exec(f);
+    return m ? parseFloat(m[1]) / (m[2] ? 100 : 1) : 1;
+  }
+
   function sampler(img) {
     var s = samples.get(img);
     if (s) return s;
@@ -129,7 +195,7 @@
   }
 
   // average relative luminance (0 dark .. 1 light) of the part of img behind rect
-  function luminanceBehind(img, rect) {
+  function luminanceBehind(img, rect, boost) {
     if (!img.complete || !img.naturalWidth) return 0;
     var s = sampler(img);
     if (s.bad) return 0;
@@ -143,14 +209,15 @@
     var sum = 0, n = 0;
     for (var i = 0; i < data.length; i += 4) {
       var a = data[i + 3] / 255;
-      var lum = 0.2126 * Math.pow(data[i] / 255, 2.2) + 0.7152 * Math.pow(data[i + 1] / 255, 2.2) + 0.0722 * Math.pow(data[i + 2] / 255, 2.2);
+      var r = Math.min(1, data[i] / 255 * boost), g = Math.min(1, data[i + 1] / 255 * boost), b = Math.min(1, data[i + 2] / 255 * boost);
+      var lum = 0.2126 * Math.pow(r, 2.2) + 0.7152 * Math.pow(g, 2.2) + 0.0722 * Math.pow(b, 2.2);
       sum += lum * a;
       n++;
     }
     return n ? sum / n : 0;
   }
 
-  var targets = Array.prototype.slice.call(header.querySelectorAll("a"));
+  var targets = Array.prototype.slice.call(header.querySelectorAll("a, button"));
 
   function adapt() {
     targets.forEach(function (a) {
@@ -162,8 +229,8 @@
         if (stack[i].tagName === "IMG") img = stack[i];
         break; // topmost thing behind the bar
       }
-      // the bar's dark tint dims what is behind it, so compare against the dimmed value
-      var light = img ? luminanceBehind(img, r) * 0.6 + 0.04 > 0.2 : false;
+      // brightened backdrop, then dimmed by the bar's tint, plus its white highlight
+      var light = img ? luminanceBehind(img, r, barBrightness()) * 0.62 + 0.13 > 0.2 : false;
       if (light) a.setAttribute("data-tone", "light");
       else a.removeAttribute("data-tone");
     });

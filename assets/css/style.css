@@ -67,9 +67,9 @@ body::before {
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     inset 0 -1px 0 rgba(255, 255, 255, 0.14),
     inset 0 0 22px rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(12px) saturate(1.5);
-  backdrop-filter: blur(12px) saturate(1.5);
-  backdrop-filter: url(#bar-refract) blur(10px) saturate(1.5) brightness(1.05);
+  -webkit-backdrop-filter: blur(26px) saturate(1.5);
+  backdrop-filter: blur(26px) saturate(1.5);
+  backdrop-filter: url(#bar-refract) blur(26px) saturate(0) brightness(3);
 }
 
 .glass-bar a { transition: color 0.2s; }
@@ -77,3 +77,47 @@ body::before {
 /* nav label over a light image: dark text instead of white (set by main.js) */
 .glass-bar a[data-tone="light"] { color: rgba(12, 14, 22, 0.92); }
 .glass-bar a[data-tone="light"][aria-current="page"] { color: #4a2a00; }
+
+/* ---------- mobile nav (< 640px) ----------
+   At the top: full-width capsule, GitHub | AEPS | Menu. Scrolled: small capsule with three stripes.
+   Both open the same dropdown card. */
+.hb-left, .nav-toggle { display: none; }
+.nav-toggle { justify-self: end; align-items: center; padding: 0; background: none; border: 0; color: #fff; cursor: pointer; transition: color 0.2s; }
+.nav-toggle:focus-visible { outline: 2px solid #f2c879; outline-offset: 6px; border-radius: 4px; }
+.nt-label { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.nt-bars { display: none; flex-direction: column; gap: 5px; width: 22px; }
+.nt-bars i { display: block; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.25s, opacity 0.2s; }
+.glass-bar.menu-open .nt-bars i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.glass-bar.menu-open .nt-bars i:nth-child(2) { opacity: 0; }
+.glass-bar.menu-open .nt-bars i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.glass-bar button[data-tone="light"] { color: rgba(12, 14, 22, 0.92); }
+
+.mobile-menu-wrap { display: none; }
+@media (max-width: 639px) {
+  header.glass-bar { display: grid; grid-template-columns: 1fr auto 1fr; width: calc(100% - 2rem); padding: 0.8rem 1.35rem; overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .hb-left { display: flex; align-items: center; justify-self: start; color: rgba(255, 255, 255, 0.85); }
+  .hb-brand { justify-self: center; }
+  .nav-toggle { display: flex; }
+  header.glass-bar.collapsed { width: 3.4rem; padding: 0.75rem 1rem; grid-template-columns: 1fr; }
+  .glass-bar.collapsed .hb-left, .glass-bar.collapsed .hb-brand, .glass-bar.collapsed .nt-label { display: none; }
+  .glass-bar.collapsed .nt-bars { display: flex; }
+
+  /* zero-height sticky anchor: keeps the card pinned just under the capsule while scrolling */
+  .mobile-menu-wrap { display: block; position: sticky; top: 4.75rem; height: 0; z-index: 9; margin: 0 1rem; }
+  .glass-bar.collapsed + .mobile-menu-wrap { top: 4.1rem; }
+  .mobile-menu { position: absolute; top: 0; right: 0; display: flex; flex-direction: column; min-width: 13rem; padding: 0.5rem; border-radius: 22px;
+    background: rgba(8, 9, 14, 0.72); border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    -webkit-backdrop-filter: blur(26px) saturate(1.4); backdrop-filter: blur(26px) saturate(1.4);
+    transform-origin: top right; animation: menu-in 0.18s ease-out; }
+  /* collapsed: the stripes sit at the left, so the card opens from the left */
+  .glass-bar.collapsed + .mobile-menu-wrap .mobile-menu { right: auto; left: 0; transform-origin: top left; }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1rem; border-radius: 14px; color: rgba(255, 255, 255, 0.8); text-decoration: none;
+    font-family: "JetBrains Mono", monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .mobile-menu a:active, .mobile-menu a:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .mobile-menu a[aria-current="page"] { color: #f2c879; }
+  .mobile-menu .mm-brand { font-family: "Fraunces", Georgia, serif; font-size: 1.1rem; font-weight: 500; letter-spacing: 0.14em; color: #fff; text-transform: none; padding-bottom: 0.6rem; margin-bottom: 0.3rem; border-radius: 14px 14px 0 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+}
+@keyframes menu-in { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }

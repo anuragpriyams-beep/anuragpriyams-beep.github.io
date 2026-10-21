@@ -43,6 +43,8 @@ Other pages have a small label (`Blog`), a big title (`<h1>`) and one blurb line
 
 In `assets/js/main.js`, edit the `items` list: `["key", "Label", "folder/"]`. The key must match the page's `data-page` value (set on the script tag at the bottom of each page). Adding a page means: make a folder with an `index.html` (copy `projects/_template/index.html`), then add one line to `items`.
 
+On phones (under 640px) the bar shows GitHub, AEPS and a Menu button at the top of the page, and collapses to a small three-stripe capsule once you scroll. Both open the same dropdown, which is built from the same `items` list, so a new nav item appears there automatically. The collapse thresholds are in `syncCollapse()` in `main.js` (collapse after 48px of scroll, expand again within 16px of the top), and the mobile styles are at the bottom of `style.css`.
+
 ## Add a project
 
 1. Copy `projects/_template/` to `projects/<your-project>/`. Build the interactive demo there: its own HTML, JS, CSS and images can live in that folder.
